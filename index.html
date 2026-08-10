@@ -416,7 +416,11 @@ src="https://www.facebook.com/tr?id=2028636301106282&ev=PageView&noscript=1"
       fetch(ENDPOINT, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(data)})
         .catch(function(){})
         .finally(function(){ thanks(form, data.name); });
-      if(window.fbq){ fbq('track','Lead'); }
+      if(window.fbq){ fbq('track', 'Lead', {
+        content_name: 'Pure Care free in-home assessment',
+        content_category: 'home care',
+        status: (data.urgency || '')
+      }); }
     });
     show(0);
   });
