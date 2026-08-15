@@ -20,7 +20,7 @@ Plain HTML and CSS, no framework or build step. Styling is scoped to the page wi
 
 ## About
 
-Built by James Praise, a product marketing and go-to-market operator, founder of Marketing In Action.
+Built by [James Praise](https://www.jamespraise.xyz), a product marketing and go-to-market operator, founder of [Marketing In Action](https://marketinginaction.xyz).
 
-LinkedIn: [linkedin.com/in/jamespraise](https://linkedin.com/in/jamespraise)
-X: [x.com/realjaymes](https://x.com/realjaymes)
+- LinkedIn: [linkedin.com/in/jamespraise](https://www.linkedin.com/in/jamespraise)
+- X: [x.com/realjaymes](https://x.com/realjaymes)
