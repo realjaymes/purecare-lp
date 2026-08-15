@@ -8,7 +8,7 @@ This is a real client project, so the details stay de-identified here. The page 
 
 ## What it is
 
-A single-page landing site with a hero section, a multi-step booking form, trust signals, a benefits breakdown, and a testimonials section, all built around one conversion goal.
+A single-page landing site with an intro section, a multi-step form for booking a consultation, credentials and guarantees to build trust, a breakdown of what the service offers, and customer reviews, all built to get the visitor to book a call.
 
 ---
 
