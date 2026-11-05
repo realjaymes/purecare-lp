@@ -390,7 +390,20 @@ src="https://www.facebook.com/tr?id=2028636301106282&ev=PageView&noscript=1"
   // Deployed Google Apps Script Web App (Pure Care LLC Leads sheet):
   const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyuB8ofF85LUUvCkbFP6MDHdjOrZMFI_leDGSP8peQRPV14kvdrKPHvgoR_P71jcB8/exec';
 
+  // Funnel events between PageView and Lead, for reading drop-off (not used as the optimization goal).
+  // FormStart fires once per page view on the first touch of any form field; FormStep fires once
+  // per step reached (2 and 3), so the funnel reads visit > start > step 2 > step 3 > Lead.
+  var started = false, stepsSent = {};
+  function track(name, params){ if(window.fbq){ fbq('trackCustom', name, params || {}); } }
+
   document.querySelectorAll('.msform').forEach(function(form){
+    function markStart(){
+      if(started) return;
+      started = true;
+      track('FormStart', {content_name: 'Pure Care free in-home assessment'});
+    }
+    form.addEventListener('focusin', markStart);
+    form.addEventListener('change', markStart);
     var panels = Array.prototype.slice.call(form.querySelectorAll('.mspanel'));
     var dots = form.querySelectorAll('.msbar span');
     var cur = 0;
@@ -405,7 +418,12 @@ src="https://www.facebook.com/tr?id=2028636301106282&ev=PageView&noscript=1"
       return true;
     }
     form.querySelectorAll('.next').forEach(function(b){
-      b.addEventListener('click', function(){ if(validPanel()) show(Math.min(cur+1, panels.length-1)); });
+      b.addEventListener('click', function(){
+        if(!validPanel()) return;
+        show(Math.min(cur+1, panels.length-1));
+        var step = cur + 1;
+        if(!stepsSent[step]){ stepsSent[step] = true; track('FormStep', {step: step}); }
+      });
     });
     form.querySelectorAll('.back').forEach(function(b){
       b.addEventListener('click', function(){ show(Math.max(cur-1, 0)); });
