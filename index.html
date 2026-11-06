@@ -198,8 +198,8 @@ src="https://www.facebook.com/tr?id=2028636301106282&ev=PageView&noscript=1"
       </div>
 
       <div class="mspanel" data-step="2" hidden>
-        <label>Town / ZIP (service area)</label>
-        <input type="text" name="area" placeholder="Stafford, 22554" required>
+        <label>ZIP code (where care is needed)</label>
+        <input type="text" name="area" data-lc="zip" inputmode="numeric" maxlength="5" placeholder="22554" required>
         <label>How will care be paid for?</label>
         <select name="payment" required><option value="">Select…</option><option>Private pay (family funds)</option><option>Long-term care insurance</option><option>Veterans benefits</option><option>Not sure yet</option></select>
         <div class="msnav"><button type="button" class="btn ghost back">← Back</button><button type="button" class="btn next">Continue →</button></div>
@@ -209,8 +209,8 @@ src="https://www.facebook.com/tr?id=2028636301106282&ev=PageView&noscript=1"
         <label>Your name</label>
         <input type="text" name="name" placeholder="Jane Smith" required>
         <div class="grid2">
-          <div><label>Mobile Number</label><input type="tel" name="phone" placeholder="(571) 000-0000" required></div>
-          <div><label>Email (Personal)</label><input type="email" name="email" placeholder="you@email.com"></div>
+          <div><label>Mobile Number</label><input type="tel" name="phone" data-lc="phone" placeholder="(571) 555-0123" required></div>
+          <div><label>Email (Personal)</label><input type="email" name="email" data-lc="email" placeholder="you@email.com" required></div>
         </div>
         <div class="msnav"><button type="button" class="btn ghost back">← Back</button><button type="submit" class="btn">Get my free assessment →</button></div>
       </div>
@@ -341,8 +341,8 @@ src="https://www.facebook.com/tr?id=2028636301106282&ev=PageView&noscript=1"
       </div>
 
       <div class="mspanel" data-step="2" hidden>
-        <label>Town / ZIP (service area)</label>
-        <input type="text" name="area" placeholder="Stafford, 22554" required>
+        <label>ZIP code (where care is needed)</label>
+        <input type="text" name="area" data-lc="zip" inputmode="numeric" maxlength="5" placeholder="22554" required>
         <label>How will care be paid for?</label>
         <select name="payment" required><option value="">Select…</option><option>Private pay (family funds)</option><option>Long-term care insurance</option><option>Veterans benefits</option><option>Not sure yet</option></select>
         <div class="msnav"><button type="button" class="btn ghost back">← Back</button><button type="button" class="btn next">Continue →</button></div>
@@ -352,8 +352,8 @@ src="https://www.facebook.com/tr?id=2028636301106282&ev=PageView&noscript=1"
         <label>Your name</label>
         <input type="text" name="name" placeholder="Jane Smith" required>
         <div class="grid2">
-          <div><label>Mobile Number</label><input type="tel" name="phone" placeholder="(571) 000-0000" required></div>
-          <div><label>Email (Personal)</label><input type="email" name="email" placeholder="you@email.com"></div>
+          <div><label>Mobile Number</label><input type="tel" name="phone" data-lc="phone" placeholder="(571) 555-0123" required></div>
+          <div><label>Email (Personal)</label><input type="email" name="email" data-lc="email" placeholder="you@email.com" required></div>
         </div>
         <div class="msnav"><button type="button" class="btn ghost back">← Back</button><button type="submit" class="btn">Get my free assessment →</button></div>
       </div>
@@ -386,6 +386,7 @@ src="https://www.facebook.com/tr?id=2028636301106282&ev=PageView&noscript=1"
   </div>
 </footer>
 
+<script src="lead-checks.js"></script>
 <script>
   // Deployed Google Apps Script Web App (Pure Care LLC Leads sheet):
   const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyuB8ofF85LUUvCkbFP6MDHdjOrZMFI_leDGSP8peQRPV14kvdrKPHvgoR_P71jcB8/exec';
@@ -414,7 +415,10 @@ src="https://www.facebook.com/tr?id=2028636301106282&ev=PageView&noscript=1"
     }
     function validPanel(){
       var fields = Array.prototype.slice.call(panels[cur].querySelectorAll('[required]'));
-      for(var k=0;k<fields.length;k++){ if(!fields[k].value){ fields[k].reportValidity(); return false; } }
+      for(var k=0;k<fields.length;k++){
+        if(window.LeadChecks) LeadChecks.msg(fields[k]);
+        if(!fields[k].value || !fields[k].checkValidity()){ fields[k].reportValidity(); fields[k].focus(); return false; }
+      }
       return true;
     }
     form.querySelectorAll('.next').forEach(function(b){
